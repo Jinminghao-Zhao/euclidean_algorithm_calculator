@@ -37,16 +37,71 @@ def collect_numbers():
     
     return first_integer, second_integer
 
+def collect_polynomials():
+    gather_two_polynomials = False
+
+    while not gather_two_polynomials:
+        first_polynomial = input('Please enter the first polynomial you want to find the GCD of written in descending power, with no spaces between terms and operations. An example would be: 5x^4+4x^3-10x^2+54\n')
+        second_polynomial = input('Please enter the second polynomial you want to find the GCD of written in descending power, in a form similar to the one you just gave.\n')
+
+def collect_modulo():
+    gather_modulo = False
+
+    while not gather_modulo:
+        modulo = input("Since the polynomials are in a field F[x], what is x? That is, what is the modulo?")
+        try:
+            modulo = int(modulo)
+        except ValueError:
+            print("That is not a valid response.")
+        else:
+            print("Good to know!")
+            gather_modulo = True
+    return modulo
+
+def poly_size_decider(first_polynomial, second_polynomial):
+    higher_power_poly = None
+    lower_power_poly = None
+    return higher_power_poly, lower_power_poly
 def main():
-    print("Hi! This is a calculator that uses and displays the Euclidean Algorithm of finding the Greatest Common Divisor (GCD) of two given integers!")
+    print("Hi! This is a calculator that uses and displays the Euclidean Algorithm of finding the Greatest Common Divisor (GCD) of two given integers or polynomials!")
     start = input("For now, do you want to start using the calculator? (enter y for yes and n for no)\n")
     while start not in ('y','n'):
         start = input("Sorry, that wasn't a choice that you could make. Do you want to start using the calculator? (again, enter y for yes and n for no)\n")
     
     if start == 'y':
-        first_integer, second_integer = collect_numbers()
-        bigger_integer, smaller_integer = int_size_decider(first_integer, second_integer)
-        gcd = find_gcd(bigger_integer, smaller_integer)
+        polynomial = None
+        while polynomial not in (True, False):
+            answer = input('Do you want to use the Integer or Polynomial mode? (enter 1 for integer, 2 for polynomial)')
+            if answer == '1':
+                polynomial = False
+            if answer == '2':
+                polynomial = True
+            else:
+                print('Invalid answer.')
+        if polynomial == False:
+            print("Got it!")
+            first_integer, second_integer = collect_numbers()
+            bigger_integer, smaller_integer = int_size_decider(first_integer, second_integer)
+            gcd = find_gcd(bigger_integer, smaller_integer)
+        elif polynomial == True:
+            print("Understood!")
+            field = None
+            while field not in (True, False):
+                reply = input('Is this polynomial in a field (F[x])? (y for yes, n for no)')
+                if reply == 'y':
+                    field = True
+                elif reply == 'n':
+                    field = False
+                else:
+                    print('Invalid answer.')
+            print("Okay!")
+            first_polynomial, second_polynomial = collect_polynomials()
+            if field == True:
+                modulo = collect_modulo()
+            higher_power_poly, lower_power_poly = poly_size_decider(first_polynomial, second_polynomial)
+                
+        else:
+            print("This shouldn't be happening.")
     elif start == 'n':
         print('I see. Goodbye then!')
 
